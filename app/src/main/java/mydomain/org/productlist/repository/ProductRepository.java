@@ -8,4 +8,5 @@ public interface ProductRepository {
     List<Product> getProducts();
     int getTotalCounts();
     Product getProductByPosition(int position);
+    void deleteElement(int id);
 }

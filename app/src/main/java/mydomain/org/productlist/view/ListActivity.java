@@ -1,15 +1,13 @@
 package mydomain.org.productlist.view;
 
-import android.app.Dialog;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import mydomain.org.productlist.R;
@@ -20,6 +18,7 @@ import mydomain.org.productlist.presenter.ProductPresenterImpl;
 public class ListActivity extends AppCompatActivity implements ListView {
     private RecyclerView recyclerView;
     private ProductPresenter presenter;
+    private ProductAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,46 +40,43 @@ public class ListActivity extends AppCompatActivity implements ListView {
                 presenter.onItemLongClick(position);
             }
         }));
+        adapter = new ProductAdapter(presenter);
+        recyclerView.setAdapter(adapter);
 
-        recyclerView.setAdapter(new ProductAdapter(presenter));
     }
 
     @Override
-    public void openInfoDialog() {
-        final Dialog dialog = new Dialog(ListActivity.this, android.R.style.Theme_Translucent_NoTitleBar);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.choose_dialog);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.CENTER;
+    public void openInfoDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
 
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-
-        dialog.getWindow().setAttributes(lp);
-
-        TextView deleteBtn = dialog.findViewById(R.id.delete_btn);
-        TextView editBtn = dialog.findViewById(R.id.edit_btn);
-
-
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        LayoutInflater inflater = ListActivity.this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.choose_dialog, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
         dialog.show();
+        dialog.getWindow().setLayout((int) getResources().getDimension(R.dimen.dialog_width), (int) getResources().getDimension(R.dimen.dialog_height));
+
+        TextView deleteBtn = view.findViewById(R.id.delete_btn);
+        TextView editBtn = view.findViewById(R.id.edit_btn);
+
+        deleteBtn.setOnClickListener((v) -> {
+            deleteElement(position);
+            dialog.dismiss();
+        });
+
+        editBtn.setOnClickListener((v) -> {
+            dialog.dismiss();
+        });
     }
 
     @Override
     public void openEditActivity() {
-
+        Intent intent = new Intent(this, EditActivity.class);
     }
+
+    @Override
+    public void deleteElement(int position) {
+        adapter.removeAt(position);
+    }
+
 }

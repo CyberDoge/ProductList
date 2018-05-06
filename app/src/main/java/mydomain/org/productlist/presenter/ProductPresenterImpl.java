@@ -35,8 +35,13 @@ public class ProductPresenterImpl implements ProductPresenter {
     }
 
     @Override
+    public void deleteElement(int position) {
+        repository.deleteElement(position);
+    }
+
+    @Override
     public void onItemClick(int position) {
-        view.openInfoDialog();
+        view.openInfoDialog(position);
     }
 
     @Override

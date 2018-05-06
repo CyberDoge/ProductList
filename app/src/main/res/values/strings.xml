@@ -97,4 +97,7 @@
     <string name="name">name</string>
     <string name="count">count</string>
     <string name="price">price</string>
+    <string name="title_activity_edit">EditActivity</string>
+    <string name="cancel">cancel</string>
+    <string name="save">save</string>
 </resources>

@@ -7,4 +7,5 @@ public interface ProductPresenter {
     String getProductName(int position);
     float getProductPrice(int position);
     int getProductCount(int position);
+    void deleteElement(int position);
 }

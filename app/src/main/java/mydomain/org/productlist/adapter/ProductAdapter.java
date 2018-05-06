@@ -1,6 +1,5 @@
 package mydomain.org.productlist.adapter;
 
-import android.database.Observable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public ProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v =  LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_line, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_line, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -36,10 +35,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return presenter.getItemCount();
     }
 
+    public void removeAt(int position) {
+        presenter.deleteElement(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, presenter.getItemCount());
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameField;
         TextView priceField;
         TextView countField;
+
         public ViewHolder(View v) {
             super(v);
             nameField = v.findViewById(R.id.product_name);

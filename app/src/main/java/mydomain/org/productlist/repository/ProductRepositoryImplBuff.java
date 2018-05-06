@@ -28,4 +28,9 @@ public class ProductRepositoryImplBuff implements ProductRepository {
     public Product getProductByPosition(int position) {
         return productDB.get(position);
     }
+
+    @Override
+    public void deleteElement(int id) {
+        productDB.remove(id);
+    }
 }
