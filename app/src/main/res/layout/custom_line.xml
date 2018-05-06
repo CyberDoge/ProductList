@@ -38,7 +38,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/product_count"
+            android:id="@+id/product_price"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="11"

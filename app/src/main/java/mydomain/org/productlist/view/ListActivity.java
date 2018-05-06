@@ -72,6 +72,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
     @Override
     public void openEditActivity() {
         Intent intent = new Intent(this, EditActivity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -5,7 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".view.EditActivity">
 
+
+
+    <include layout="@layout/content_edit" />
     <LinearLayout
+        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_height"
         android:background="@color/bg"
@@ -31,8 +35,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-
-    <include layout="@layout/content_edit" />
-
 
 </android.support.design.widget.CoordinatorLayout>

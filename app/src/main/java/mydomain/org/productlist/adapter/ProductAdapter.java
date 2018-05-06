@@ -50,7 +50,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(v);
             nameField = v.findViewById(R.id.product_name);
             priceField = v.findViewById(R.id.product_price);
-            countField = v.findViewById(R.id.product_count);
+            countField = v.findViewById(R.id.product_price);
         }
     }
 }
