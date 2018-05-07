@@ -11,7 +11,7 @@ public class ProductPresenterImpl implements ProductPresenter {
 
     public ProductPresenterImpl(ListView view) {
         this.view = view;
-        repository = new ProductRepositoryImplBuff();
+        repository = ProductRepositoryImplBuff.getInstance();
     }
 
     @Override

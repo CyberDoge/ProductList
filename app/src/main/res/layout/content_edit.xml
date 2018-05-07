@@ -104,7 +104,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/currency"
         android:layout_width="81dp"
         android:layout_height="24dp"
         android:layout_marginBottom="8dp"
