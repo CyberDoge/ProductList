@@ -95,9 +95,11 @@
     <string name="delete">delete</string>
     <string name="edit">edit</string>
     <string name="name">name</string>
+    <string name="description">description</string>
     <string name="count">count</string>
     <string name="price">price</string>
     <string name="title_activity_edit">EditActivity</string>
     <string name="cancel">cancel</string>
     <string name="save">save</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

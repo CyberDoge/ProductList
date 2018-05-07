@@ -66,12 +66,13 @@ public class ListActivity extends AppCompatActivity implements ListView {
 
         editBtn.setOnClickListener((v) -> {
             dialog.dismiss();
+            openEditActivity();
         });
     }
 
     @Override
     public void openEditActivity() {
-        Intent intent = new Intent(this, EditActivity.class);
+        Intent intent = new Intent(ListActivity.this, EditActivity.class);
         startActivity(intent);
     }
 
