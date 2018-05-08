@@ -66,13 +66,20 @@ public class ListActivity extends AppCompatActivity implements ListView {
 
         editBtn.setOnClickListener((v) -> {
             dialog.dismiss();
-            openEditActivity();
+            openEditActivity(position);
         });
     }
 
     @Override
-    public void openEditActivity() {
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void openEditActivity(int position) {
         Intent intent = new Intent(ListActivity.this, EditActivity.class);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 

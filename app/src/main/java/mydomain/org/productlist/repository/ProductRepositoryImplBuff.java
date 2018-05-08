@@ -5,7 +5,6 @@ import java.util.List;
 
 import mydomain.org.productlist.model.Currency;
 import mydomain.org.productlist.model.Product;
-import mydomain.org.productlist.model.ProductImpl;
 
 public class ProductRepositoryImplBuff implements ProductRepository {
     //todo make mysql database and add dagger
@@ -15,8 +14,8 @@ public class ProductRepositoryImplBuff implements ProductRepository {
         return instance;
     }
     private ProductRepositoryImplBuff() {
-        for (int i = 1; i < 31; i++)
-            productDB.add(new ProductImpl("name#" + i, i * 1000 - (30 % i) * (-i % 2), (i * i + i * i) / i));
+        for (int i = 1; i < 3; i++)
+            productDB.add(new Product("name#" + i, i * 1000 - (30 % i) * (-i % 2), (i * i + i * i) / i));
     }
 
     @Override
@@ -41,6 +40,11 @@ public class ProductRepositoryImplBuff implements ProductRepository {
 
     @Override
     public void save(String name, String description, float price, int count, char currency) {
-        productDB.add(new ProductImpl(name, description, price, count, Currency.getCurrency(currency)));
+        productDB.add(new Product(name, description, price, count, Currency.getCurrency(currency)));
+    }
+
+    @Override
+    public void update(int position, String name, String description, float price, int count, char currency) {
+        productDB.set(position, new Product(name, description, price, count, Currency.getCurrency(currency)));
     }
 }

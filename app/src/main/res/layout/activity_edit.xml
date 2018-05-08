@@ -3,62 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.EditActivity">
 
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
     <include layout="@layout/content_edit" />
-<!--
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_gravity="bottom"
-        android:background="@color/bg"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/cancel_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:background="@android:color/transparent"
-            android:text="@string/cancel"
-            android:textColor="@color/select_btn"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_btn_size" />
-
-        <View
-            android:layout_marginVertical="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="7.9"
-            android:background="@color/select_btn" />
-
-        <Button
-            android:id="@+id/save_brn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:background="@android:color/transparent"
-            android:layout_gravity="right"
-            android:text="@string/save"
-            android:textColor="@color/select_btn"
-            android:textSize="@dimen/text_btn_size" />
-    </LinearLayout>
--->
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,6 +1,5 @@
 package mydomain.org.productlist.presenter;
 
-import mydomain.org.productlist.model.Product;
 import mydomain.org.productlist.repository.ProductRepository;
 import mydomain.org.productlist.repository.ProductRepositoryImplBuff;
 import mydomain.org.productlist.view.ListView;

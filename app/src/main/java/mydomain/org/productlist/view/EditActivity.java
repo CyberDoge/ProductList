@@ -2,7 +2,10 @@ package mydomain.org.productlist.view;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -29,12 +32,14 @@ public class EditActivity extends AppCompatActivity implements EditView {
         price = findViewById(R.id.product_price);
         count = findViewById(R.id.product_count);
         currency = findViewById(R.id.currency);
-        presenter = new EditPresenterImpl(this);
+        presenter = new EditPresenterImpl(this, getIntent().getIntExtra("position", -1));
+        presenter.setValues();
+
     }
 
 
     @Override
-    public void setValues(String name, String description, float price, float count, Currency currency) {
+    public void setValues(String name, String description, float price, int count, Currency currency) {
         if (name == null) name = "";
         this.name.setText(name);
         if (description == null) description = "";
@@ -43,10 +48,46 @@ public class EditActivity extends AppCompatActivity implements EditView {
         this.count.setText(count + "");
         ArrayAdapter adapter = new ArrayAdapter(EditActivity.this, android.R.layout.simple_spinner_item, 0, Currency.getAllSymbols());
         this.currency.setAdapter(adapter);
+        this.currency.setSelection(currency.ordinal());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_edit, menu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save_btn:
+                presenter.update(name.getText().toString(), description.getText().toString(), price.getText().toString(),
+                        count.getText().toString(), (Character) currency.getSelectedItem());
+                close();
+                return true;
+            case android.R.id.home:
+                close();
+                return true;
+            default:
+                return true;
+        }
     }
 
     @Override
     public void close() {
-        onDestroy();
+        finish();
+    }
+
+    @Override
+    public void showErrorMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditActivity.this);
+        builder.setMessage("Invalid product!");
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_error_red_24dp);
+        builder.setPositiveButton(
+                "close", (dialog, id) -> close());
+        builder.create().show();
     }
 }
