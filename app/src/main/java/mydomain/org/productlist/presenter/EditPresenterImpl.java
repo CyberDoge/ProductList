@@ -25,7 +25,7 @@ public class EditPresenterImpl implements EditPresenter {
 
     @Override
     public void update(String name, String description, String price, String count, char currency) {
-        if(!(name.isEmpty() && description.isEmpty() && price.isEmpty() && count.isEmpty()))
+        if(!(name.isEmpty() || price.isEmpty() || count.isEmpty()))
             repository.update(position, name, description, Float.parseFloat(price), Integer.parseInt(count), currency);
     }
 
