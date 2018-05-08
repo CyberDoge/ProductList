@@ -1,4 +1,4 @@
-package mydomain.org.productlist.adapter;
+package mydomain.org.productlist.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,12 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import mydomain.org.productlist.R;
 import mydomain.org.productlist.presenter.ProductPresenter;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
     private ProductPresenter presenter;
-
     public ProductAdapter(ProductPresenter presenter) {
         this.presenter = presenter;
     }
@@ -25,9 +25,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nameField.setText(presenter.getProductName(position));
-        holder.countField.setText(presenter.getProductCount(position) + "");
-        holder.priceField.setText(String.format("%.2f" + presenter.getCurrency(position), presenter.getProductPrice(position)));
+       presenter.setValues(holder, position);
+    }
+
+    public void search(String str){
+        presenter.search(str);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -41,10 +44,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         notifyItemRangeChanged(position, presenter.getItemCount());
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameField;
-        TextView priceField;
-        TextView countField;
+   public static class ViewHolder extends RecyclerView.ViewHolder {
+        public final TextView nameField;
+        public final TextView priceField;
+        public final TextView countField;
 
         public ViewHolder(View v) {
             super(v);

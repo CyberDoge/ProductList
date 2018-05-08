@@ -1,51 +1,67 @@
 package mydomain.org.productlist.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import mydomain.org.productlist.model.Product;
 import mydomain.org.productlist.repository.ProductRepository;
 import mydomain.org.productlist.repository.ProductRepositoryImplBuff;
 import mydomain.org.productlist.view.ListView;
+import mydomain.org.productlist.view.adapter.ProductAdapter;
 
 public class ProductPresenterImpl implements ProductPresenter {
     private ListView view;
     private ProductRepository repository;
+    private List<Product> productFind;
+    private boolean searching = false;
 
     public ProductPresenterImpl(ListView view) {
         this.view = view;
         repository = ProductRepositoryImplBuff.getInstance();
+        productFind = new ArrayList<>();
     }
 
     @Override
-    public int getItemCount(){
-        return repository.getTotalCounts();
+    public int getItemCount() {
+        return searching ? productFind.size() : repository.getTotalCounts();
     }
 
-    @Override
-    public String getProductName(int position) {
-        return repository.getProductByPosition(position).getName();
-    }
-
-    @Override
-    public float getProductPrice(int position) {
-        return repository.getProductByPosition(position).getPrice();
-    }
-
-    @Override
-    public int getProductCount(int position) {
-        return repository.getProductByPosition(position).getCount();
-    }
 
     @Override
     public void deleteElement(int position) {
         repository.deleteElement(position);
     }
 
-    @Override
-    public char getCurrency(int position) {
-        return repository.getProductByPosition(position).getCurrency().getSymbol();
-    }
 
     @Override
     public void addElement() {
         repository.createDefault();
+    }
+
+    @Override
+    public void search(String str) {
+        if (str.isEmpty()) return;
+        List<Product> products = repository.getProducts();
+        productFind.clear();
+        for (Product p : products) {
+            if (p.getName().contains(str)) {
+                productFind.add(p);
+            }
+        }
+        searching = true;
+    }
+
+    @Override
+    public void setValues(ProductAdapter.ViewHolder holder, int position) {
+        Product product;
+        if (searching) {
+            if (position == productFind.size() - 1) searching = false;
+            else if (position >= productFind.size()) return;
+            product = productFind.get(position);
+        } else product = repository.getProductByPosition(position);
+        holder.nameField.setText(product.getName());
+        holder.countField.setText(product.getCount() + "");
+        holder.priceField.setText(String.format("%.2f" + product.getCurrency().getSymbol(), product.getPrice()));
     }
 
     @Override

@@ -11,13 +11,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import mydomain.org.productlist.R;
-import mydomain.org.productlist.adapter.ProductAdapter;
+import mydomain.org.productlist.view.adapter.ProductAdapter;
 import mydomain.org.productlist.presenter.ProductPresenter;
 import mydomain.org.productlist.presenter.ProductPresenterImpl;
 
@@ -123,7 +122,10 @@ public class ListActivity extends AppCompatActivity implements ListView {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            System.out.println(query);
+            search(query);
         }
+    }
+    private void search(String query){
+        adapter.search(query);
     }
 }

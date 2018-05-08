@@ -1,13 +1,13 @@
 package mydomain.org.productlist.presenter;
 
+import mydomain.org.productlist.view.adapter.ProductAdapter;
+
 public interface ProductPresenter {
     void onItemClick(int position);
     void onItemLongClick(int position);
     int getItemCount();
-    String getProductName(int position);
-    float getProductPrice(int position);
-    int getProductCount(int position);
     void deleteElement(int position);
-    char getCurrency(int position);
     void addElement();
+    void search(String str);
+    void setValues(ProductAdapter.ViewHolder holder, int position);
 }
