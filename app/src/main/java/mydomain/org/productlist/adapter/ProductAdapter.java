@@ -27,7 +27,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameField.setText(presenter.getProductName(position));
         holder.countField.setText(presenter.getProductCount(position) + "");
-        holder.priceField.setText(String.format("%.2f$", presenter.getProductPrice(position)));
+        holder.priceField.setText(String.format("%.2f" + presenter.getCurrency(position), presenter.getProductPrice(position)));
     }
 
     @Override

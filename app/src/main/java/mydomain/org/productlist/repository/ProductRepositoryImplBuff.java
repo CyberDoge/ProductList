@@ -39,8 +39,8 @@ public class ProductRepositoryImplBuff implements ProductRepository {
     }
 
     @Override
-    public void save(String name, String description, float price, int count, char currency) {
-        productDB.add(new Product(name, description, price, count, Currency.getCurrency(currency)));
+    public void createDefault() {
+        productDB.add(new Product("product#"+productDB.size(), 0, 0));
     }
 
     @Override

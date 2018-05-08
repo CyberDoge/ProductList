@@ -8,4 +8,6 @@ public interface ProductPresenter {
     float getProductPrice(int position);
     int getProductCount(int position);
     void deleteElement(int position);
+    char getCurrency(int position);
+    void addElement();
 }

@@ -9,6 +9,6 @@ public interface ProductRepository {
     int getTotalCounts();
     Product getProductByPosition(int position);
     void deleteElement(int id);
-    void save(String name, String description, float price, int count, char currency);
+    void createDefault();
     void update(int position, String name, String description, float price, int count, char currency);
 }

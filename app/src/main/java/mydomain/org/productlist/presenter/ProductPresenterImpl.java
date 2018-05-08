@@ -39,6 +39,16 @@ public class ProductPresenterImpl implements ProductPresenter {
     }
 
     @Override
+    public char getCurrency(int position) {
+        return repository.getProductByPosition(position).getCurrency().getSymbol();
+    }
+
+    @Override
+    public void addElement() {
+        repository.createDefault();
+    }
+
+    @Override
     public void onItemClick(int position) {
         view.openInfoDialog(position);
     }

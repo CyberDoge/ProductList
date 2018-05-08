@@ -99,6 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:ems="10"
+            android:digits="0123456789."
             android:hint="@string/count"
             android:inputType="numberSigned" />
     </android.support.design.widget.TextInputLayout>

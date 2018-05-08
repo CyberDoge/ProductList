@@ -17,15 +17,8 @@ public class EditPresenterImpl implements EditPresenter {
     }
 
     @Override
-    public void save(String name, String description, String price, String count, char currency) {
-        //todo check if name, description etc is empty
-        if(!(name.isEmpty() && description.isEmpty() && price.isEmpty() && count.isEmpty()))
-        repository.save(name, description, Float.parseFloat(price), Integer.parseInt(count), currency);
-    }
-
-    @Override
     public void update(String name, String description, String price, String count, char currency) {
-        if(!(name.isEmpty() || price.isEmpty() || count.isEmpty()))
+        if(!(name.isEmpty() || price.isEmpty() || price.length() > 12 || count.isEmpty() || count.length() > 9))
             repository.update(position, name, description, Float.parseFloat(price), Integer.parseInt(count), currency);
     }
 

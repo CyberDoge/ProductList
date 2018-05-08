@@ -1,13 +1,19 @@
 package mydomain.org.productlist.view;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import mydomain.org.productlist.R;
@@ -16,9 +22,9 @@ import mydomain.org.productlist.presenter.ProductPresenter;
 import mydomain.org.productlist.presenter.ProductPresenterImpl;
 
 public class ListActivity extends AppCompatActivity implements ListView {
-    private RecyclerView recyclerView;
     private ProductPresenter presenter;
     private ProductAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,9 @@ public class ListActivity extends AppCompatActivity implements ListView {
         }));
         adapter = new ProductAdapter(presenter);
         recyclerView.setAdapter(adapter);
+        FloatingActionButton button = findViewById(R.id.add_btn);
+        button.setOnClickListener((view) -> addProduct());
+        handleIntent(getIntent());
 
     }
 
@@ -88,4 +97,33 @@ public class ListActivity extends AppCompatActivity implements ListView {
         adapter.removeAt(position);
     }
 
+    @Override
+    public void addProduct() {
+        presenter.addElement();
+        adapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(adapter.getItemCount()-1);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        return true;
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+      super.onNewIntent(intent);
+      handleIntent(intent);
+    }
+
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            System.out.println(query);
+        }
+    }
 }
