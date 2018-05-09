@@ -1,6 +1,7 @@
 package mydomain.org.productlist.presenter;
 
-import android.content.Context;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,8 @@ public class ProductPresenterImpl implements ProductPresenter {
 
 
     @Override
-    public void deleteElement(int position) {
-        database.getProductDao().deleteElement(position);
+    public void deleteElementAtPosition(int position) {
+        database.getProductDao().deleteByPosition(position);
     }
 
 
@@ -69,22 +70,8 @@ public class ProductPresenterImpl implements ProductPresenter {
         holder.nameField.setText(product.getName());
         holder.countField.setText(product.getCount() + "");
         holder.priceField.setText(String.format("%.2f" + product.getCurrency().getSymbol(), product.getPrice()));
-        holder.setupPrimaryKey(product.getPid());
-    }
-
-    @Override
-    public void sortByName() {
-
-    }
-
-    @Override
-    public void sortByPrice() {
-
-    }
-
-    @Override
-    public void sortByCount() {
-
+        if (product.getIconPath() != null)
+            Picasso.get().load(product.getIconPath()).into(holder.iconField);
     }
 
     @Override

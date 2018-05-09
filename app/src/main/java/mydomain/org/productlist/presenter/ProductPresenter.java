@@ -6,11 +6,8 @@ public interface ProductPresenter {
     void onItemClick(int position);
     void onItemLongClick(int position);
     int getItemCount();
-    void deleteElement(int position);
+    void deleteElementAtPosition(int position);
     void addElement();
     void search(String str);
     void setValues(ProductAdapter.ViewHolder holder, int position);
-    void sortByName();
-    void sortByPrice();
-    void sortByCount();
 }

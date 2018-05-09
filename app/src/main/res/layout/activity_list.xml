@@ -17,61 +17,27 @@
             android:layout_height="match_parent"
             android:layout_weight="10" />
 
-        <LinearLayout
-            android:id="@+id/sorting_name_layout"
+        <Space
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="9"
             android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/name" />
-
-            <ImageView
-                android:id="@+id/sorting_name_image"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_no_sort_black_24dp" />
-        </LinearLayout>
+        </Space>
 
 
-    <LinearLayout
-        android:id="@+id/sorting_price_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="10"
-        android:orientation="horizontal">
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/price" />
-        <ImageView
-            android:id="@+id/sorting_price_image"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_no_sort_black_24dp" />
-    </LinearLayout>
-        <LinearLayout
-            android:id="@+id/sorting_count_layout"
-            android:orientation="horizontal"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="11">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/count" />
-            <ImageView
-                android:id="@+id/sorting_count_image"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_no_sort_black_24dp" />
-        </LinearLayout>
+            android:layout_weight="10"
+            android:gravity="center"
+            android:text="@string/price" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11"
+            android:gravity="center"
+            android:text="@string/count" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"

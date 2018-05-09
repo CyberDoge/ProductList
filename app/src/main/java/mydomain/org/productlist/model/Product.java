@@ -1,17 +1,18 @@
 package mydomain.org.productlist.model;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import mydomain.org.productlist.Dao.TypeTransmogrifier;
 
 @Entity(tableName = "products")
 public class Product {
+    private static int onlyForDebug = 0;//todo
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int pid;
@@ -23,23 +24,14 @@ public class Product {
     private float price;
     @ColumnInfo(name = "count")
     private int count;
-    @Ignore
-    private int iconId;
+    @ColumnInfo(name = "iconPath")
+    private Uri iconPath;
     @ColumnInfo(name = "currency")
     @TypeConverters(TypeTransmogrifier.class)
     private Currency currency;
 
-    public Product() {
-    }
 
-    @Ignore
-    public Product(int pid, String name, String description, float price, int count, Currency currency) {
-        this.pid = pid;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.count = count;
-        this.currency = currency;
+    public Product() {
     }
 
     @Ignore
@@ -52,15 +44,15 @@ public class Product {
     }
 
     public static Product createDefault() {
-        return new Product("new product", 0, 0);
+        return new Product("new product" + onlyForDebug++, 0, 0);
     }
 
-    public int getIconId() {
-        return iconId;
+    public Uri getIconPath() {
+        return iconPath;
     }
 
-    public void setIconId(int iconId) {
-        this.iconId = iconId;
+    public void setIconPath(Uri iconPath) {
+        this.iconPath = iconPath;
     }
 
     public int getPid() {

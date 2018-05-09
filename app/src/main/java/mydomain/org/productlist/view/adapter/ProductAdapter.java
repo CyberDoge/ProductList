@@ -4,8 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -21,8 +20,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public ProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_line, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -41,31 +39,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     public void removeAt(int position) {
-        presenter.deleteElement(position);
+        presenter.deleteElementAtPosition(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, presenter.getItemCount());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public final ImageView iconField;
         public final TextView nameField;
         public final TextView priceField;
         public final TextView countField;
-        private int primaryKey;
 
-        public int getPrimaryKey() {
-            return primaryKey;
-        }
-
-        //not a setter
-        public void setupPrimaryKey(int key){
-            primaryKey = key;
-        }
-
-        public ViewHolder(View v) {
+        private ViewHolder(View v) {
             super(v);
+            iconField = v.findViewById(R.id.product_icon);
             nameField = v.findViewById(R.id.product_name);
             priceField = v.findViewById(R.id.product_price);
-            countField = v.findViewById(R.id.product_price);
+            countField = v.findViewById(R.id.product_count);
         }
     }
 }

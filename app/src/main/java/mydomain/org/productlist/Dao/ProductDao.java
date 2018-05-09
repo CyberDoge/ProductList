@@ -29,8 +29,8 @@ public interface ProductDao {
     @Query("SELECT * FROM products LIMIT 1 OFFSET :position")
     Product getProductByPosition(int position);
 
-    @Query("DELETE FROM products WHERE name in (SELECT name FROM products LIMIT 1 OFFSET :id)")
-    void deleteElement(int id);
+    @Query("DELETE FROM products WHERE pid IN (SELECT pid FROM products LIMIT 1 OFFSET :position)")
+    int deleteByPosition(int position);
 
     @Insert
     void insert(Product product);

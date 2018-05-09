@@ -50,13 +50,6 @@ public class ListActivity extends AppCompatActivity implements ListView {
         recyclerView.setAdapter(adapter);
         FloatingActionButton button = findViewById(R.id.add_btn);
         button.setOnClickListener((view) -> addProduct());
-
-        LinearLayout sortByNameLayout = findViewById(R.id.sorting_name_layout);
-        LinearLayout sortByPriceLayout = findViewById(R.id.sorting_price_layout);
-        LinearLayout sortByCountLayout = findViewById(R.id.sorting_count_layout);
-        sortByNameLayout.setOnClickListener((v)->presenter.sortByName());
-        sortByPriceLayout.setOnClickListener((v)->presenter.sortByPrice());
-        sortByCountLayout.setOnClickListener((v)->presenter.sortByCount());
     }
 
     @Override
