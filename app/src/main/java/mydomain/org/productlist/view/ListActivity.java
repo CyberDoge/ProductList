@@ -49,8 +49,6 @@ public class ListActivity extends AppCompatActivity implements ListView {
         recyclerView.setAdapter(adapter);
         FloatingActionButton button = findViewById(R.id.add_btn);
         button.setOnClickListener((view) -> addProduct());
-        handleIntent(getIntent());
-
     }
 
     @Override
@@ -109,23 +107,23 @@ public class ListActivity extends AppCompatActivity implements ListView {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                adapter.filter(newText);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                adapter.filter(query);
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
         return true;
-    }
-
-    @Override
-    public void onNewIntent(Intent intent) {
-      super.onNewIntent(intent);
-      handleIntent(intent);
-    }
-
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            search(query);
-        }
-    }
-    private void search(String query){
-        adapter.search(query);
     }
 }

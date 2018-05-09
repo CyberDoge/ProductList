@@ -23,7 +23,8 @@ public class ProductPresenterImpl implements ProductPresenter {
 
     @Override
     public int getItemCount() {
-        return searching ? productFind.size() : repository.getTotalCounts();
+        return searching ? productFind.size() :
+                repository.getTotalCounts();
     }
 
 
@@ -40,7 +41,10 @@ public class ProductPresenterImpl implements ProductPresenter {
 
     @Override
     public void search(String str) {
-        if (str.isEmpty()) return;
+        if (str.isEmpty()) {
+            searching = false;
+            return;
+        }
         List<Product> products = repository.getProducts();
         productFind.clear();
         for (Product p : products) {
@@ -49,14 +53,17 @@ public class ProductPresenterImpl implements ProductPresenter {
             }
         }
         searching = true;
+
     }
 
     @Override
     public void setValues(ProductAdapter.ViewHolder holder, int position) {
         Product product;
         if (searching) {
-            if (position == productFind.size() - 1) searching = false;
-            else if (position >= productFind.size()) return;
+            if (position >= productFind.size()) {
+                searching = false;
+                return;
+            }
             product = productFind.get(position);
         } else product = repository.getProductByPosition(position);
         holder.nameField.setText(product.getName());

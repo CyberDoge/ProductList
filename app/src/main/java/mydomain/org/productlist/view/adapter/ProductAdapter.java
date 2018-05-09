@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 
@@ -28,7 +30,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
        presenter.setValues(holder, position);
     }
 
-    public void search(String str){
+    public void filter(String str){
         presenter.search(str);
         notifyDataSetChanged();
     }
@@ -44,7 +46,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         notifyItemRangeChanged(position, presenter.getItemCount());
     }
 
-   public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView nameField;
         public final TextView priceField;
         public final TextView countField;
