@@ -29,8 +29,8 @@ public class ProductPresenterImpl implements ProductPresenter {
 
 
     @Override
-    public void deleteElement(int position) {
-        database.getProductDao().deleteElement(position);
+    public void deleteElement(int key) {
+        database.getProductDao().deleteElement(key);
     }
 
 
@@ -88,8 +88,8 @@ public class ProductPresenterImpl implements ProductPresenter {
     }
 
     @Override
-    public void onItemClick(int position) {
-        view.openInfoDialog(position);
+    public void onItemClick(int position, int key) {
+        view.openInfoDialog(position, key);
     }
 
     @Override

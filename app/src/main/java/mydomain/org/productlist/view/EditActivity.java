@@ -33,7 +33,7 @@ public class EditActivity extends AppCompatActivity implements EditView {
         price = findViewById(R.id.product_price);
         count = findViewById(R.id.product_count);
         currency = findViewById(R.id.currency);
-        presenter = new EditPresenterImpl(this, getIntent().getIntExtra("position", -1));
+        presenter = new EditPresenterImpl(this, getIntent().getIntExtra("key", -1));
         presenter.setValues();
     }
 

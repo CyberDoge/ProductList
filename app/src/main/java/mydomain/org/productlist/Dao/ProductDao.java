@@ -36,5 +36,5 @@ public interface ProductDao {
     void insert(Product product);
 
     @Update
-    void update(Product product);
+    int updateProduct(Product product);
 }

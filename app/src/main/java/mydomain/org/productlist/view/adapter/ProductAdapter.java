@@ -39,9 +39,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public int getItemCount() {
         return presenter.getItemCount();
     }
+    public int getPrimaryKey(RecyclerView.ViewHolder viewHolder){
+        return ((ViewHolder)viewHolder).getPrimaryKey();
+    }
 
-    public void removeAt(int position) {
-        presenter.deleteElement(position);
+    public void removeAt(int position, int key) {
+        presenter.deleteElement(key);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, presenter.getItemCount());
     }

@@ -38,7 +38,8 @@ public class ListActivity extends AppCompatActivity implements ListView {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(ListActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                presenter.onItemClick(position);
+                int key = adapter.getPrimaryKey(recyclerView.findViewHolderForAdapterPosition(position));
+                presenter.onItemClick(position, key);
             }
 
             @Override
@@ -60,7 +61,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
     }
 
     @Override
-    public void openInfoDialog(final int position) {
+    public void openInfoDialog(final int position, final int key) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
 
         LayoutInflater inflater = ListActivity.this.getLayoutInflater();
@@ -74,13 +75,14 @@ public class ListActivity extends AppCompatActivity implements ListView {
         TextView editBtn = view.findViewById(R.id.edit_btn);
 
         deleteBtn.setOnClickListener((v) -> {
-            deleteElement(position);
             dialog.dismiss();
+            deleteElement(position, key);
+
         });
 
         editBtn.setOnClickListener((v) -> {
             dialog.dismiss();
-            openEditActivity(position);
+            openEditActivity(key);
         });
     }
 
@@ -91,15 +93,15 @@ public class ListActivity extends AppCompatActivity implements ListView {
     }
 
     @Override
-    public void openEditActivity(int position) {
+    public void openEditActivity(int key) {
         Intent intent = new Intent(ListActivity.this, EditActivity.class);
-        intent.putExtra("position", position);
+        intent.putExtra("key", key);
         startActivity(intent);
     }
 
     @Override
-    public void deleteElement(int position) {
-        adapter.removeAt(position);
+    public void deleteElement(int position, int key) {
+        adapter.removeAt(position, key);
     }
 
     @Override

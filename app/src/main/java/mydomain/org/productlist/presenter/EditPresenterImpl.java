@@ -21,7 +21,7 @@ public class EditPresenterImpl implements EditPresenter {
         if (name.isEmpty() || price.isEmpty() || price.length() > 12 || count.isEmpty() || count.length() > 9)
             return;
         Product product = new Product(pid, name, description, Float.parseFloat(price), Integer.parseInt(count), Currency.getCurrency(currency));
-        database.getProductDao().update(product);
+        database.getProductDao().updateProduct(product);
     }
 
     @Override
