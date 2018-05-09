@@ -1,6 +1,8 @@
 package mydomain.org.productlist.presenter;
 
-import android.support.design.widget.FloatingActionButton;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import mydomain.org.productlist.database.AppDatabase;
 import mydomain.org.productlist.model.Currency;
@@ -19,7 +21,7 @@ public class EditPresenterImpl implements EditPresenter {
     }
 
     @Override
-    public void update(String name, String description, String price, String count, char currency) {
+    public void update(String path, String name, String description, String price, String count, char currency) {
         if (name.isEmpty() || price.isEmpty() || price.length() > 12 || count.isEmpty() || count.length() > 9)
             return;
         product.setName(name);
@@ -27,6 +29,7 @@ public class EditPresenterImpl implements EditPresenter {
         product.setPrice(Float.parseFloat(price));
         product.setCount(Integer.parseInt(count));
         product.setCurrency(Currency.getCurrency(currency));
+        product.setIconPath(path);
         database.getProductDao().update(product);
     }
 
@@ -46,6 +49,11 @@ public class EditPresenterImpl implements EditPresenter {
             view.showErrorMessage();
             return;
         }
-        view.setValues(product.getName(), product.getDescription(), product.getPrice(), product.getCount(), product.getCurrency());
+        view.setValues(product.getIconPath(), product.getName(), product.getDescription(), product.getPrice(), product.getCount(), product.getCurrency());
+    }
+
+    @Override
+    public void changeImage(String image, ImageView imageView) {
+        Picasso.get().load(image).into(imageView);
     }
 }

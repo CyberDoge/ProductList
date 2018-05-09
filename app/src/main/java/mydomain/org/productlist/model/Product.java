@@ -5,10 +5,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import mydomain.org.productlist.Dao.TypeTransmogrifier;
+import mydomain.org.productlist.dao.TypeTransmogrifier;
 
 @Entity(tableName = "products")
 public class Product {
@@ -25,7 +24,7 @@ public class Product {
     @ColumnInfo(name = "count")
     private int count;
     @ColumnInfo(name = "iconPath")
-    private Uri iconPath;
+    private String iconPath;
     @ColumnInfo(name = "currency")
     @TypeConverters(TypeTransmogrifier.class)
     private Currency currency;
@@ -47,11 +46,11 @@ public class Product {
         return new Product("new product" + onlyForDebug++, 0, 0);
     }
 
-    public Uri getIconPath() {
+    public String getIconPath() {
         return iconPath;
     }
 
-    public void setIconPath(Uri iconPath) {
+    public void setIconPath(String iconPath) {
         this.iconPath = iconPath;
     }
 

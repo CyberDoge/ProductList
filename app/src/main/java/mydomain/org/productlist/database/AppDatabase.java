@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import mydomain.org.productlist.Dao.ProductDao;
+import mydomain.org.productlist.dao.ProductDao;
 import mydomain.org.productlist.model.Product;
 
 @Database(entities = {Product.class}, version = 1)

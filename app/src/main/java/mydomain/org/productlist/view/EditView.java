@@ -5,7 +5,7 @@ import android.content.Context;
 import mydomain.org.productlist.model.Currency;
 
 public interface EditView {
-    void setValues(String name, String description, float price, int count, Currency currency);
+    void setValues(String iconPath, String name, String description, float price, int count, Currency currency);
     void close();
     void showErrorMessage();
     Context getContext();

@@ -1,4 +1,4 @@
-package mydomain.org.productlist.Dao;
+package mydomain.org.productlist.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
