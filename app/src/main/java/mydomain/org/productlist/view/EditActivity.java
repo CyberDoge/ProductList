@@ -1,5 +1,6 @@
 package mydomain.org.productlist.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
@@ -34,7 +35,6 @@ public class EditActivity extends AppCompatActivity implements EditView {
         currency = findViewById(R.id.currency);
         presenter = new EditPresenterImpl(this, getIntent().getIntExtra("position", -1));
         presenter.setValues();
-
     }
 
 
@@ -89,5 +89,10 @@ public class EditActivity extends AppCompatActivity implements EditView {
         builder.setPositiveButton(
                 "close", (dialog, id) -> close());
         builder.create().show();
+    }
+
+    @Override
+    public Context getContext() {
+        return EditActivity.this;
     }
 }

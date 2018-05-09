@@ -50,6 +50,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public final TextView nameField;
         public final TextView priceField;
         public final TextView countField;
+        private int primaryKey;
+
+        public int getPrimaryKey() {
+            return primaryKey;
+        }
+
+        //not a setter
+        public void setupPrimaryKey(int key){
+            primaryKey = key;
+        }
 
         public ViewHolder(View v) {
             super(v);

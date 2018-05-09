@@ -1,42 +1,42 @@
 package mydomain.org.productlist.presenter;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import mydomain.org.productlist.database.AppDatabase;
 import mydomain.org.productlist.model.Product;
-import mydomain.org.productlist.repository.ProductRepository;
-import mydomain.org.productlist.repository.ProductRepositoryImplBuff;
 import mydomain.org.productlist.view.ListView;
 import mydomain.org.productlist.view.adapter.ProductAdapter;
 
 public class ProductPresenterImpl implements ProductPresenter {
     private ListView view;
-    private ProductRepository repository;
+    private AppDatabase database;
     private List<Product> productFind;
     private boolean searching = false;
 
     public ProductPresenterImpl(ListView view) {
         this.view = view;
-        repository = ProductRepositoryImplBuff.getInstance();
+        database = AppDatabase.getAppDatabase(view.getContext());
         productFind = new ArrayList<>();
     }
 
     @Override
     public int getItemCount() {
-        return searching ? productFind.size() :
-                repository.getTotalCounts();
+        return searching ? productFind.size() : database.getProductDao().getTotalCount();
     }
 
 
     @Override
     public void deleteElement(int position) {
-        repository.deleteElement(position);
+        database.getProductDao().deleteElement(position);
     }
 
 
     @Override
     public void addElement() {
-        repository.createDefault();
+        database.getProductDao().insert(Product.createDefault());
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ProductPresenterImpl implements ProductPresenter {
             searching = false;
             return;
         }
-        List<Product> products = repository.getProducts();
+        List<Product> products = database.getProductDao().getAllProduct();
         productFind.clear();
         for (Product p : products) {
             if (p.getName().contains(str)) {
@@ -65,10 +65,26 @@ public class ProductPresenterImpl implements ProductPresenter {
                 return;
             }
             product = productFind.get(position);
-        } else product = repository.getProductByPosition(position);
+        } else product = database.getProductDao().getProductByPosition(position);
         holder.nameField.setText(product.getName());
         holder.countField.setText(product.getCount() + "");
         holder.priceField.setText(String.format("%.2f" + product.getCurrency().getSymbol(), product.getPrice()));
+        holder.setupPrimaryKey(product.getPid());
+    }
+
+    @Override
+    public void sortByName() {
+
+    }
+
+    @Override
+    public void sortByPrice() {
+
+    }
+
+    @Override
+    public void sortByCount() {
+
     }
 
     @Override

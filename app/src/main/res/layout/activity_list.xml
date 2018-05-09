@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,24 +17,61 @@
             android:layout_height="match_parent"
             android:layout_weight="10" />
 
-        <Space
+        <LinearLayout
+            android:id="@+id/sorting_name_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="9" />
+            android:layout_weight="9"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/name" />
+
+            <ImageView
+                android:id="@+id/sorting_name_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_no_sort_black_24dp" />
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/sorting_price_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        android:orientation="horizontal">
+
+    <TextView
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="8"
-            android:gravity="center"
             android:text="@string/price" />
-
-        <TextView
+        <ImageView
+            android:id="@+id/sorting_price_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_no_sort_black_24dp" />
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/sorting_count_layout"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="11"
-            android:gravity="center"
-            android:text="@string/count" />
+            android:layout_weight="11">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/count" />
+            <ImageView
+                android:id="@+id/sorting_count_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_no_sort_black_24dp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"

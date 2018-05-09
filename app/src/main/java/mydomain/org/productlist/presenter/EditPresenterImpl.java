@@ -1,25 +1,27 @@
 package mydomain.org.productlist.presenter;
 
+import mydomain.org.productlist.database.AppDatabase;
+import mydomain.org.productlist.model.Currency;
 import mydomain.org.productlist.model.Product;
-import mydomain.org.productlist.repository.ProductRepository;
-import mydomain.org.productlist.repository.ProductRepositoryImplBuff;
 import mydomain.org.productlist.view.EditView;
 
 public class EditPresenterImpl implements EditPresenter {
+    private final int pid;
     private EditView view;
-    private ProductRepository repository;
-    private final int position;
+    private AppDatabase database;
 
-    public EditPresenterImpl(EditView view, int pos) {
+    public EditPresenterImpl(EditView view, int pid) {
         this.view = view;
-        repository = ProductRepositoryImplBuff.getInstance();
-        position = pos;
+        database = AppDatabase.getAppDatabase(view.getContext());
+        this.pid = pid;
     }
 
     @Override
     public void update(String name, String description, String price, String count, char currency) {
-        if(!(name.isEmpty() || price.isEmpty() || price.length() > 12 || count.isEmpty() || count.length() > 9))
-            repository.update(position, name, description, Float.parseFloat(price), Integer.parseInt(count), currency);
+        if (name.isEmpty() || price.isEmpty() || price.length() > 12 || count.isEmpty() || count.length() > 9)
+            return;
+        Product product = new Product(pid, name, description, Float.parseFloat(price), Integer.parseInt(count), Currency.getCurrency(currency));
+        database.getProductDao().update(product);
     }
 
     @Override
@@ -29,11 +31,11 @@ public class EditPresenterImpl implements EditPresenter {
 
     @Override
     public void setValues() {
-        if (position == -1) {
+        if (pid == -1) {
             view.showErrorMessage();
             return;
         }
-        Product product = repository.getProductByPosition(position);
+        Product product = database.getProductDao().getProductByPosition(pid);
         if (product == null) {
             view.showErrorMessage();
             return;

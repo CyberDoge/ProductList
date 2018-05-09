@@ -10,4 +10,7 @@ public interface ProductPresenter {
     void addElement();
     void search(String str);
     void setValues(ProductAdapter.ViewHolder holder, int position);
+    void sortByName();
+    void sortByPrice();
+    void sortByCount();
 }

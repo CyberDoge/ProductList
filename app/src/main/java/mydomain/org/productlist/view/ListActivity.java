@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -49,6 +50,13 @@ public class ListActivity extends AppCompatActivity implements ListView {
         recyclerView.setAdapter(adapter);
         FloatingActionButton button = findViewById(R.id.add_btn);
         button.setOnClickListener((view) -> addProduct());
+
+        LinearLayout sortByNameLayout = findViewById(R.id.sorting_name_layout);
+        LinearLayout sortByPriceLayout = findViewById(R.id.sorting_price_layout);
+        LinearLayout sortByCountLayout = findViewById(R.id.sorting_count_layout);
+        sortByNameLayout.setOnClickListener((v)->presenter.sortByName());
+        sortByPriceLayout.setOnClickListener((v)->presenter.sortByPrice());
+        sortByCountLayout.setOnClickListener((v)->presenter.sortByCount());
     }
 
     @Override
@@ -100,6 +108,12 @@ public class ListActivity extends AppCompatActivity implements ListView {
         adapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(adapter.getItemCount()-1);
     }
+
+    @Override
+    public Context getContext() {
+        return ListActivity.this;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
