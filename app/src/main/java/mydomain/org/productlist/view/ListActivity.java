@@ -12,10 +12,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import mydomain.org.productlist.R;
+import mydomain.org.productlist.model.Currency;
 import mydomain.org.productlist.view.adapter.ProductAdapter;
 import mydomain.org.productlist.presenter.ListPresenter;
 import mydomain.org.productlist.presenter.ListPresenterImpl;
@@ -48,7 +52,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
         adapter = new ProductAdapter(presenter);
         recyclerView.setAdapter(adapter);
         FloatingActionButton button = findViewById(R.id.add_btn);
-        button.setOnClickListener((view) -> addProduct());
+        button.setOnClickListener((view) -> openCreateDialog());
     }
 
     @Override
@@ -77,6 +81,34 @@ public class ListActivity extends AppCompatActivity implements ListView {
     }
 
     @Override
+    public void openCreateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+
+        LayoutInflater inflater = ListActivity.this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.create_dialog, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        TextView saveBtn = view.findViewById(R.id.create_save);
+
+        EditText name = view.findViewById(R.id.create_name);
+        EditText price = view.findViewById(R.id.create_price);
+        EditText count = view.findViewById(R.id.create_count);
+        Spinner currency = view.findViewById(R.id.create_currency);
+        TextView errors = view.findViewById(R.id.errors_message);
+        ArrayAdapter adapter = new ArrayAdapter(ListActivity.this, android.R.layout.simple_spinner_item, 0, Currency.getAllSymbols());
+        currency.setAdapter(adapter);
+        currency.setSelection(0);
+        saveBtn.setOnClickListener((v) -> {
+            if(name.getText().length() * price.getText().length() * count.getText().length() != 0){
+                addProduct(name.getText().toString(), price.getText().toString(), count.getText().toString(), (Character)currency.getSelectedItem());
+                dialog.dismiss();
+            }else errors.setText(R.string.error);
+        });
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
@@ -94,9 +126,8 @@ public class ListActivity extends AppCompatActivity implements ListView {
         adapter.removeAt(position);
     }
 
-    @Override
-    public void addProduct() {
-        presenter.addElement();
+    private void addProduct(String name, String price, String count, char currency) {
+        presenter.addElement(name, price, count, currency);
         adapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(adapter.getItemCount()-1);
     }

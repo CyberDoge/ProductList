@@ -11,10 +11,13 @@ import android.os.AsyncTask;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import mydomain.org.productlist.R;
 import mydomain.org.productlist.database.AppDatabase;
+import mydomain.org.productlist.model.Currency;
 import mydomain.org.productlist.model.Product;
 import mydomain.org.productlist.view.ListView;
 import mydomain.org.productlist.view.adapter.ProductAdapter;
@@ -44,11 +47,16 @@ public class ListPresenterImpl implements ListPresenter {
         database.getProductDao().deleteByPosition(position);
     }
 
-
     @Override
-    public void addElement() {
-        database.getProductDao().insert(Product.createDefault());
+    public void addElement(String name, String price, String count, char currency) {
+        Product product = new Product();
+        product.setName(name);
+        product.setPrice(Float.parseFloat(price));
+        product.setCount(Integer.parseInt(count));
+        product.setCurrency(Currency.getCurrency(currency));
+        database.getProductDao().insert(product);
     }
+
 
     @Override
     public void search(String str) {
@@ -80,10 +88,13 @@ public class ListPresenterImpl implements ListPresenter {
         holder.nameField.setText(product.getName());
         holder.countField.setText(product.getCount() + "");
         holder.priceField.setText(String.format("%.2f" + product.getCurrency().getSymbol(), product.getPrice()));
-        if (product.getIconPath() != null)
+        if (product.getIconPath() != null && new File(product.getIconPath()).exists())
             Picasso.get().load(product.getIconPath()).
                     transform(new CircularTransformation()).
                     into(holder.iconField);
+        else  Picasso.get().load(R.mipmap.ic_launcher_round).
+                transform(new CircularTransformation()).
+                into(holder.iconField);
     }
 
     @Override

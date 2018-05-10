@@ -90,13 +90,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
-    <string-array name="currency">
-        <item>₽</item>
-        <item>$</item>
-        <item>€</item>
-        <item>£</item>
-    </string-array>
-
     <string name="action_settings">Settings</string>
     <string name="no_name">no name</string>
     <string name="select_action">Please, select action</string>
@@ -110,4 +103,6 @@
     <string name="title_activity_edit">EditActivity</string>
     <string name="cancel">cancel</string>
     <string name="save">save</string>
+    <string name="create_action">create new product</string>
+    <string name="error">please, fill in all fields</string>
 </resources>

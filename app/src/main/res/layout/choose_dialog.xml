@@ -8,11 +8,11 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="@string/select_action"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="@dimen/dialog_message"
         android:textStyle="bold" />
 
     <TextView
@@ -37,8 +37,8 @@
         android:layout_alignRight="@+id/title"
         android:layout_alignTop="@+id/delete_btn"
         app:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_vertical"
         android:text="@string/edit"
+        android:gravity="center_vertical"
         android:textColor="@color/dialog_text_btn"
         android:textSize="@dimen/text_btn_size"
         android:textStyle="bold" />

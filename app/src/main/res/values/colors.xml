@@ -7,4 +7,5 @@
     <color name="dialog_text_btn">#dd2c00</color>
     <color name="select_btn">#ffd16f</color>
     <color name="bg">#e78606</color>
+    <color name="red">#ec1515</color>
 </resources>

@@ -8,5 +8,7 @@
     <dimen name="text_btn_height">30dp</dimen>
     <dimen name="text_btn_width">75dp</dimen>
     <dimen name="text_btn_size">22sp</dimen>
+    <dimen name="dialog_message">20sp</dimen>
     <dimen name="icon_size">100dp</dimen>
+    <dimen name="dialog_margin">70dp</dimen>
 </resources>

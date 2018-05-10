@@ -7,7 +7,7 @@ public interface ListPresenter {
     void onItemLongClick(int position);
     int getItemCount();
     void deleteElementAtPosition(int position);
-    void addElement();
+    void addElement(String name, String price, String count, char currency);
     void search(String str);
     void setValues(ProductAdapter.ViewHolder holder, int position);
 }
