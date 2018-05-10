@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,26 +37,44 @@ public class ListActivity extends AppCompatActivity implements ListView {
         recyclerView = findViewById(R.id.products_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-
         presenter = new ListPresenterImpl(this);
+        FloatingActionButton fab = findViewById(R.id.add_btn);
+        fab.setOnClickListener((view) -> openCreateDialog());
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(ListActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                presenter.onItemClick(position);
+                openInfoDialog(position);
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
-                presenter.onItemLongClick(position);
+
             }
         }));
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0 ||dy < 0 && fab.isShown())
+                    fab.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                    fab.show();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
         adapter = new ProductAdapter(presenter);
         recyclerView.setAdapter(adapter);
-        FloatingActionButton button = findViewById(R.id.add_btn);
-        button.setOnClickListener((view) -> openCreateDialog());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                linearLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    @Override
     public void openInfoDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
 
@@ -70,8 +89,8 @@ public class ListActivity extends AppCompatActivity implements ListView {
         TextView editBtn = view.findViewById(R.id.edit_btn);
 
         deleteBtn.setOnClickListener((v) -> {
-            deleteElement(position);
             dialog.dismiss();
+            deleteElement(position);
         });
 
         editBtn.setOnClickListener((v) -> {
@@ -80,7 +99,6 @@ public class ListActivity extends AppCompatActivity implements ListView {
         });
     }
 
-    @Override
     public void openCreateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
 
@@ -101,10 +119,9 @@ public class ListActivity extends AppCompatActivity implements ListView {
         currency.setAdapter(adapter);
         currency.setSelection(0);
         saveBtn.setOnClickListener((v) -> {
-            if(name.getText().length() * price.getText().length() * count.getText().length() != 0){
-                addProduct(name.getText().toString(), price.getText().toString(), count.getText().toString(), (Character)currency.getSelectedItem());
+            if(presenter.addElement(name, price, count, (Character) currency.getSelectedItem()))
                 dialog.dismiss();
-            }else errors.setText(R.string.error);
+            else errors.setText(R.string.error);
         });
     }
 
@@ -114,20 +131,18 @@ public class ListActivity extends AppCompatActivity implements ListView {
         adapter.notifyDataSetChanged();
     }
 
-    @Override
     public void openEditActivity(int position) {
         Intent intent = new Intent(ListActivity.this, EditActivity.class);
         intent.putExtra("position", position);
         startActivity(intent);
     }
 
-    @Override
     public void deleteElement(int position) {
         adapter.removeAt(position);
     }
 
-    private void addProduct(String name, String price, String count, char currency) {
-        presenter.addElement(name, price, count, currency);
+    @Override
+    public void addProductToView() {
         adapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(adapter.getItemCount()-1);
     }
@@ -163,4 +178,5 @@ public class ListActivity extends AppCompatActivity implements ListView {
         searchView.setOnQueryTextListener(queryTextListener);
         return true;
     }
+
 }

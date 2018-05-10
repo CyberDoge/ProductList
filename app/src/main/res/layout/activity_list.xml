@@ -5,47 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/fab_margin"
-        android:orientation="horizontal">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="10" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="9"
-            android:orientation="horizontal">
-        </Space>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:gravity="center"
-            android:text="@string/price" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="11"
-            android:gravity="center"
-            android:text="@string/count" />
-    </LinearLayout>
-
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/products_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/fab_margin"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        android:layout_height="match_parent"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_btn"

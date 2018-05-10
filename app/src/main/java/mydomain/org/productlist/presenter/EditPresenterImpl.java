@@ -65,10 +65,9 @@ public class EditPresenterImpl implements EditPresenter {
         @Override
         public Bitmap transform(Bitmap source) {
             int size = Math.min(source.getWidth(), source.getHeight());
-
             int mWidth = (source.getWidth() - size) / 2;
             int mHeight = (source.getHeight() - size) / 2;
-
+            size = Math.max(mHeight, mWidth);
             Bitmap bitmap = Bitmap.createBitmap(source, mWidth, mHeight, size, size);
             if (bitmap != source) {
                 source.recycle();

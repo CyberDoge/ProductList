@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.AsyncTask;
+import android.widget.EditText;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -48,13 +49,18 @@ public class ListPresenterImpl implements ListPresenter {
     }
 
     @Override
-    public void addElement(String name, String price, String count, char currency) {
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(Float.parseFloat(price));
-        product.setCount(Integer.parseInt(count));
-        product.setCurrency(Currency.getCurrency(currency));
-        database.getProductDao().insert(product);
+    public boolean addElement(EditText name, EditText price, EditText count, char currency) {
+        if(name.getText().length() * price.getText().length() * count.getText().length() != 0) {
+            Product product = new Product();
+            product.setName(name.getText().toString());
+            product.setPrice(Float.parseFloat(price.getText().toString()));
+            product.setCount(Integer.parseInt(count.getText().toString()));
+            product.setCurrency(Currency.getCurrency(currency));
+            database.getProductDao().insert(product);
+            view.addProductToView();
+            return true;
+        }
+        return false;
     }
 
 
@@ -95,16 +101,6 @@ public class ListPresenterImpl implements ListPresenter {
         else  Picasso.get().load(R.mipmap.ic_launcher_round).
                 transform(new CircularTransformation()).
                 into(holder.iconField);
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        view.openInfoDialog(position);
-    }
-
-    @Override
-    public void onItemLongClick(int position) {
-
     }
 
     private static class AgentAsyncTask extends AsyncTask<Void, Void, Integer> {

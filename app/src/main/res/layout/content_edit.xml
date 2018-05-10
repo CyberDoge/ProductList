@@ -14,6 +14,7 @@
         android:id="@+id/product_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxHeight="@dimen/dialog_height"
         android:layout_marginHorizontal="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

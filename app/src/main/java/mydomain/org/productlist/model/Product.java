@@ -11,7 +11,6 @@ import mydomain.org.productlist.dao.TypeTransmogrifier;
 
 @Entity(tableName = "products")
 public class Product {
-    private static int onlyForDebug = 0;//todo
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int pid;
@@ -40,10 +39,6 @@ public class Product {
         this.count = count;
         currency = Currency.RUB;
         description = "";
-    }
-
-    public static Product createDefault() {
-        return new Product("new product" + onlyForDebug++, 0, 0);
     }
 
     public String getIconPath() {
@@ -76,14 +71,6 @@ public class Product {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
-    }
-
-    public void changeDescription(String description) {
-        this.description = description;
-    }
-
-    public void changeName(String name) {
-        this.name = name;
     }
 
     public String getName() {
