@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 
 import mydomain.org.productlist.R;
-import mydomain.org.productlist.presenter.ProductPresenter;
+import mydomain.org.productlist.presenter.ListPresenter;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
-    private ProductPresenter presenter;
-    public ProductAdapter(ProductPresenter presenter) {
+    private ListPresenter presenter;
+    public ProductAdapter(ListPresenter presenter) {
         this.presenter = presenter;
     }
 

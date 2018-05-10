@@ -2,7 +2,7 @@ package mydomain.org.productlist.presenter;
 
 import mydomain.org.productlist.view.adapter.ProductAdapter;
 
-public interface ProductPresenter {
+public interface ListPresenter {
     void onItemClick(int position);
     void onItemLongClick(int position);
     int getItemCount();

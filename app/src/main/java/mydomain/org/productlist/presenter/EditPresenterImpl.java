@@ -1,8 +1,10 @@
 package mydomain.org.productlist.presenter;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import mydomain.org.productlist.database.AppDatabase;
 import mydomain.org.productlist.model.Currency;
@@ -14,6 +16,7 @@ public class EditPresenterImpl implements EditPresenter {
     private EditView view;
     private AppDatabase database;
     private Product product;
+
     public EditPresenterImpl(EditView view, int position) {
         this.view = view;
         database = AppDatabase.getAppDatabase(view.getContext());
@@ -54,6 +57,29 @@ public class EditPresenterImpl implements EditPresenter {
 
     @Override
     public void changeImage(String image, ImageView imageView) {
-        Picasso.get().load(image).into(imageView);
+        Picasso.get().load(image).transform(new CropSquareTransformation()).into(imageView);
+        imageView.setTag(image);
+    }
+
+    private static class CropSquareTransformation implements Transformation {
+        @Override
+        public Bitmap transform(Bitmap source) {
+            int size = Math.min(source.getWidth(), source.getHeight());
+
+            int mWidth = (source.getWidth() - size) / 2;
+            int mHeight = (source.getHeight() - size) / 2;
+
+            Bitmap bitmap = Bitmap.createBitmap(source, mWidth, mHeight, size, size);
+            if (bitmap != source) {
+                source.recycle();
+            }
+
+            return bitmap;
+        }
+
+        @Override
+        public String key() {
+            return "CropSquareTransformation";
+        }
     }
 }

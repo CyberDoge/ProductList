@@ -12,17 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import mydomain.org.productlist.R;
 import mydomain.org.productlist.view.adapter.ProductAdapter;
-import mydomain.org.productlist.presenter.ProductPresenter;
-import mydomain.org.productlist.presenter.ProductPresenterImpl;
+import mydomain.org.productlist.presenter.ListPresenter;
+import mydomain.org.productlist.presenter.ListPresenterImpl;
 
 public class ListActivity extends AppCompatActivity implements ListView {
-    private ProductPresenter presenter;
+    private ListPresenter presenter;
     private ProductAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -34,7 +33,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        presenter = new ProductPresenterImpl(this);
+        presenter = new ListPresenterImpl(this);
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(ListActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
