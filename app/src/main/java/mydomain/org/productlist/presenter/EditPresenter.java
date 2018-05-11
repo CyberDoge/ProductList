@@ -8,6 +8,5 @@ public interface EditPresenter {
     void update(String iconPath, String name, String description, String price, String count, char currency);
     void cancel();
     void setValues();
-    void changeImage(String iconPath, ImageView imageView);
-    void changeImage(Uri iconUri, ContentResolver contentResolver, ImageView imageView);
+    void changeImage(Uri iconUri, ImageView imageView);
 }

@@ -6,10 +6,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.io.File;
+
+import mydomain.org.productlist.R;
 import mydomain.org.productlist.database.AppDatabase;
 import mydomain.org.productlist.model.Currency;
 import mydomain.org.productlist.model.Product;
@@ -57,37 +61,36 @@ public class EditPresenterImpl implements EditPresenter {
             return;
         }
 
-        String name = product.getName() == null ? "" : product.getName();
-        String description = product.getDescription() == null ? "" : product.getDescription();
+        String name = product.getName();
+        String description = product.getDescription();
         String price = product.getPrice() + "";
         String count = product.getCount() + "";
         view.setValues(product.getIconPath(), name, description, price, count, product.getCurrency());
     }
-
+    //content://media/external/images/media/37749
+    //content://media/external/images/media/37749
     @Override
-    public void changeImage(String image, ImageView imageView) {
-        Picasso.get().load(image)./*transform(new CropSquareTransformation(imageView)).*/into(imageView);
+    public void changeImage(Uri iconUri, ImageView imageView) {
+        String image = getRealPathFromURI(iconUri);
+
+        if(new File(image).exists()) Toast.makeText(view.getContext(), "yes", Toast.LENGTH_LONG).show();
+        else Toast.makeText(view.getContext(), "no", Toast.LENGTH_LONG).show();
+        Picasso.get().load(new File(image)).error(R.mipmap.ic_launcher).transform(new CropSquareTransformation(imageView)).into(imageView);
         imageView.setTag(image);
     }
-    //content://media/external/images/media/37749
-    //content://media/external/images/media/37749
-    @Override
-    public void changeImage(Uri iconUri, ContentResolver contentResolver, ImageView imageView) {
-        changeImage(getRealPathFromURI(iconUri, contentResolver), imageView);
-    }
 
-    private String getRealPathFromURI(Uri contentURI, ContentResolver contentResolver) {
-        String result;
-        Cursor cursor = contentResolver.query(contentURI, null, null, null, null);
-        if (cursor == null) {
-            result = contentURI.getPath();
-        } else {
+    private String getRealPathFromURI(Uri contentURI) {
+        try {
+            String[] projection = {MediaStore.Images.Media.DATA};
+            Cursor cursor = view.getContext().getContentResolver().query(contentURI, projection, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
+            String res = cursor.getString(column_index);
             cursor.close();
+            return res;
+        }catch (NullPointerException e){
+            return "";
         }
-        return result;
     }
 
     private static class CropSquareTransformation implements Transformation {
@@ -99,7 +102,7 @@ public class EditPresenterImpl implements EditPresenter {
 
         @Override
         public Bitmap transform(Bitmap source) {
-            int targetWidth = view.getWidth();
+            int targetWidth = Math.max(view.getWidth(), source.getWidth());
 
             double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
             int targetHeight = (int) (targetWidth * aspectRatio);

@@ -59,7 +59,7 @@ public class EditActivity extends AppCompatActivity implements EditView {
         ArrayAdapter adapter = new ArrayAdapter(EditActivity.this, android.R.layout.simple_spinner_item, 0, Currency.getAllSymbols());
         this.currency.setAdapter(adapter);
         this.currency.setSelection(currency.ordinal());
-        presenter.changeImage(icon, this.icon);
+        presenter.changeImage(Uri.parse(icon), this.icon);
     }
 
     @Override
@@ -113,8 +113,7 @@ public class EditActivity extends AppCompatActivity implements EditView {
         switch (requestCode) {
             case 1234:
                 if (resultCode == RESULT_OK) {
-                    presenter.changeImage(data.getDataString(), icon);
-                    //presenter.changeImage(data.getData(), getContentResolver(), icon);
+                    presenter.changeImage(data.getData(), icon);
                 }
 
         }
@@ -122,6 +121,6 @@ public class EditActivity extends AppCompatActivity implements EditView {
 
     @Override
     public Context getContext() {
-        return EditActivity.this;
+        return getApplicationContext();
     }
 }

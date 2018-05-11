@@ -93,17 +93,10 @@ public class ListPresenterImpl implements ListPresenter {
         } else product = database.getProductDao().getProductByPosition(position);
         holder.nameField.setText(product.getName());
         holder.countField.setText(product.getCount() + "");
-        int exist = 0;
-        if(product.getIconPath()!=null) {
-             exist = new File(product.getIconPath()).exists() ? 1 : 2;
-        } else exist = 3;
         holder.priceField.setText(String.format("%.2f" + product.getCurrency().getSymbol(), product.getPrice()));
-        if (product.getIconPath() != null /*&& new File(product.getIconPath()).exists()*/)
-            Picasso.get().load(product.getIconPath()).transform(new CircularTransformation()).
-                    into(holder.iconField);
-        else  Picasso.get().load(R.mipmap.ic_launcher_round).
-                transform(new CircularTransformation()).
-                into(holder.iconField);
+        Picasso.get().load(new File(product.getIconPath())).placeholder(R.mipmap.ic_launcher_round).error(R.mipmap.ic_launcher_round).
+                transform(new CircularTransformation()).into(holder.iconField);
+
     }
     /*
     content://media/external/images/media/37749

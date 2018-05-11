@@ -46,7 +46,7 @@ public class Product {
     }
 
     public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
+        this.iconPath = iconPath == null ? "" : iconPath;
     }
 
     public int getPid() {
@@ -62,7 +62,7 @@ public class Product {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description == null ? "" : description;
     }
 
     public Currency getCurrency() {
@@ -78,7 +78,7 @@ public class Product {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? "" : name;
     }
 
     public int getCount() {
