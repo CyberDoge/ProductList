@@ -5,6 +5,7 @@
     android:layout_height="@dimen/line_height"
     android:clickable="true"
     android:focusable="true"
+    android:id="@+id/product_layout"
     android:foreground="?android:attr/selectableItemBackground"
     android:background="@drawable/custom_ripple"
     android:orientation="horizontal">

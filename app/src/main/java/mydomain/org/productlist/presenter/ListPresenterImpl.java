@@ -98,14 +98,12 @@ public class ListPresenterImpl implements ListPresenter {
                 transform(new CircularTransformation()).into(holder.iconField);
 
     }
-    /*
-    content://media/external/images/media/37749
-    /storage/emulated/0/Pictures/Telegram/IMG_20180416_143710_977.jpg
 
-    content://media/external/images/media/37755
+    @Override
+    public void undoDeleting() {
 
-    content://media/external/images/media/37749 ok
-    */
+    }
+
     private static class AgentAsyncTask extends AsyncTask<Void, Void, Integer> {
         private AppDatabase database;
 

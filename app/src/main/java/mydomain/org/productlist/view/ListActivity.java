@@ -21,9 +21,9 @@ import android.widget.TextView;
 
 import mydomain.org.productlist.R;
 import mydomain.org.productlist.model.Currency;
-import mydomain.org.productlist.view.adapter.ProductAdapter;
 import mydomain.org.productlist.presenter.ListPresenter;
 import mydomain.org.productlist.presenter.ListPresenterImpl;
+import mydomain.org.productlist.view.adapter.ProductAdapter;
 
 public class ListActivity extends AppCompatActivity implements ListView {
     private ListPresenter presenter;
@@ -52,16 +52,16 @@ public class ListActivity extends AppCompatActivity implements ListView {
             }
         }));
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
-                if (dy > 0 ||dy < 0 && fab.isShown())
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0 || dy < 0 && fab.isShown())
                     fab.hide();
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     fab.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
@@ -77,25 +77,18 @@ public class ListActivity extends AppCompatActivity implements ListView {
 
     public void openInfoDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
-        LayoutInflater inflater = ListActivity.this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.choose_dialog, null);
-        builder.setView(view);
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-        dialog.getWindow().setLayout((int) getResources().getDimension(R.dimen.dialog_width), (int) getResources().getDimension(R.dimen.dialog_height));
-
-        TextView deleteBtn = view.findViewById(R.id.delete_btn);
-        TextView editBtn = view.findViewById(R.id.edit_btn);
-
-        deleteBtn.setOnClickListener((v) -> {
-            dialog.dismiss();
-            deleteElement(position);
-        });
-
-        editBtn.setOnClickListener((v) -> {
-            dialog.dismiss();
-            openEditActivity(position);
-        });
+        builder
+                .setMessage(getString(R.string.select_action))
+                .setNegativeButton(getText(R.string.delete), (dialog, which) -> {
+                    dialog.dismiss();
+                    deleteElement(position);
+                })
+                .setPositiveButton(R.string.edit, (dialog, which) -> {
+                    dialog.dismiss();
+                    openEditActivity(position);
+                })
+                .setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .create().show();
     }
 
     public void openCreateDialog() {
@@ -118,7 +111,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
         currency.setAdapter(adapter);
         currency.setSelection(0);
         saveBtn.setOnClickListener((v) -> {
-            if(presenter.addElement(name, price, count, (Character) currency.getSelectedItem()))
+            if (presenter.addElement(name, price, count, (Character) currency.getSelectedItem()))
                 dialog.dismiss();
             else errors.setText(R.string.error);
         });
@@ -137,13 +130,13 @@ public class ListActivity extends AppCompatActivity implements ListView {
     }
 
     public void deleteElement(int position) {
-        adapter.removeAt(position);
+        adapter.removeAt(position, recyclerView);
     }
 
     @Override
     public void addProductToView() {
         adapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(adapter.getItemCount()-1);
+        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
     }
 
     @Override
@@ -159,17 +152,15 @@ public class ListActivity extends AppCompatActivity implements ListView {
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener()
-        {
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextChange(String newText)
-            {
+            public boolean onQueryTextChange(String newText) {
                 adapter.filter(newText);
                 return true;
             }
+
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 adapter.filter(query);
                 return true;
             }
