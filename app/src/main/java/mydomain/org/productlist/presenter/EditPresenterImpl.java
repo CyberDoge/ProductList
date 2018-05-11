@@ -1,12 +1,10 @@
 package mydomain.org.productlist.presenter;
 
-import android.content.ContentResolver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -67,14 +65,10 @@ public class EditPresenterImpl implements EditPresenter {
         String count = product.getCount() + "";
         view.setValues(product.getIconPath(), name, description, price, count, product.getCurrency());
     }
-    //content://media/external/images/media/37749
-    //content://media/external/images/media/37749
+
     @Override
     public void changeImage(Uri iconUri, ImageView imageView) {
         String image = getRealPathFromURI(iconUri);
-
-        if(new File(image).exists()) Toast.makeText(view.getContext(), "yes", Toast.LENGTH_LONG).show();
-        else Toast.makeText(view.getContext(), "no", Toast.LENGTH_LONG).show();
         Picasso.get().load(new File(image)).error(R.mipmap.ic_launcher).transform(new CropSquareTransformation(imageView)).into(imageView);
         imageView.setTag(image);
     }
@@ -88,7 +82,7 @@ public class EditPresenterImpl implements EditPresenter {
             String res = cursor.getString(column_index);
             cursor.close();
             return res;
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return "";
         }
     }

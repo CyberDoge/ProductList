@@ -77,7 +77,6 @@ public class ListActivity extends AppCompatActivity implements ListView {
 
     public void openInfoDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
-
         LayoutInflater inflater = ListActivity.this.getLayoutInflater();
         View view = inflater.inflate(R.layout.choose_dialog, null);
         builder.setView(view);
