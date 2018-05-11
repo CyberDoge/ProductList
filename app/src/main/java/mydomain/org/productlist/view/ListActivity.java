@@ -61,13 +61,13 @@ public class ListActivity extends AppCompatActivity implements ListView {
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
                 if (newState == RecyclerView.SCROLL_STATE_IDLE){
                     fab.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+
         adapter = new ProductAdapter(presenter);
         recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),

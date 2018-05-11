@@ -1,6 +1,10 @@
 package mydomain.org.productlist.presenter;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -52,33 +56,63 @@ public class EditPresenterImpl implements EditPresenter {
             view.showErrorMessage();
             return;
         }
-        view.setValues(product.getIconPath(), product.getName(), product.getDescription(), product.getPrice(), product.getCount(), product.getCurrency());
+
+        String name = product.getName() == null ? "" : product.getName();
+        String description = product.getDescription() == null ? "" : product.getDescription();
+        String price = product.getPrice() + "";
+        String count = product.getCount() + "";
+        view.setValues(product.getIconPath(), name, description, price, count, product.getCurrency());
     }
 
     @Override
     public void changeImage(String image, ImageView imageView) {
-        Picasso.get().load(image).transform(new CropSquareTransformation()).into(imageView);
+        Picasso.get().load(image)./*transform(new CropSquareTransformation(imageView)).*/into(imageView);
         imageView.setTag(image);
+    }
+    //content://media/external/images/media/37749
+    //content://media/external/images/media/37749
+    @Override
+    public void changeImage(Uri iconUri, ContentResolver contentResolver, ImageView imageView) {
+        changeImage(getRealPathFromURI(iconUri, contentResolver), imageView);
+    }
+
+    private String getRealPathFromURI(Uri contentURI, ContentResolver contentResolver) {
+        String result;
+        Cursor cursor = contentResolver.query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 
     private static class CropSquareTransformation implements Transformation {
+        private final ImageView view;
+
+        public CropSquareTransformation(ImageView view) {
+            this.view = view;
+        }
+
         @Override
         public Bitmap transform(Bitmap source) {
-            int size = Math.min(source.getWidth(), source.getHeight());
-            int mWidth = (source.getWidth() - size) / 2;
-            int mHeight = (source.getHeight() - size) / 2;
-            size = Math.max(mHeight, mWidth);
-            Bitmap bitmap = Bitmap.createBitmap(source, mWidth, mHeight, size, size);
-            if (bitmap != source) {
+            int targetWidth = view.getWidth();
+
+            double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+            int targetHeight = (int) (targetWidth * aspectRatio);
+            Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
+            if (result != source) {
                 source.recycle();
             }
-
-            return bitmap;
+            return result;
         }
 
         @Override
         public String key() {
-            return "CropSquareTransformation";
+            return "cropSquareTransformation";
         }
     }
 }

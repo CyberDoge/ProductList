@@ -1,5 +1,7 @@
 package mydomain.org.productlist.presenter;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.widget.ImageView;
 
 public interface EditPresenter {
@@ -7,4 +9,5 @@ public interface EditPresenter {
     void cancel();
     void setValues();
     void changeImage(String iconPath, ImageView imageView);
+    void changeImage(Uri iconUri, ContentResolver contentResolver, ImageView imageView);
 }

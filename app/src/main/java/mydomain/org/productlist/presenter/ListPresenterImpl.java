@@ -93,16 +93,26 @@ public class ListPresenterImpl implements ListPresenter {
         } else product = database.getProductDao().getProductByPosition(position);
         holder.nameField.setText(product.getName());
         holder.countField.setText(product.getCount() + "");
+        int exist = 0;
+        if(product.getIconPath()!=null) {
+             exist = new File(product.getIconPath()).exists() ? 1 : 2;
+        } else exist = 3;
         holder.priceField.setText(String.format("%.2f" + product.getCurrency().getSymbol(), product.getPrice()));
-        if (product.getIconPath() != null && new File(product.getIconPath()).exists())
-            Picasso.get().load(product.getIconPath()).
-                    transform(new CircularTransformation()).
+        if (product.getIconPath() != null /*&& new File(product.getIconPath()).exists()*/)
+            Picasso.get().load(product.getIconPath()).transform(new CircularTransformation()).
                     into(holder.iconField);
         else  Picasso.get().load(R.mipmap.ic_launcher_round).
                 transform(new CircularTransformation()).
                 into(holder.iconField);
     }
+    /*
+    content://media/external/images/media/37749
+    /storage/emulated/0/Pictures/Telegram/IMG_20180416_143710_977.jpg
 
+    content://media/external/images/media/37755
+
+    content://media/external/images/media/37749 ok
+    */
     private static class AgentAsyncTask extends AsyncTask<Void, Void, Integer> {
         private AppDatabase database;
 

@@ -2,7 +2,10 @@ package mydomain.org.productlist.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
@@ -48,17 +51,15 @@ public class EditActivity extends AppCompatActivity implements EditView {
 
 
     @Override
-    public void setValues(String icon, String name, String description, float price, int count, Currency currency) {
-        if (name == null) name = "";
+    public void setValues(String icon, String name, String description, String price, String count, Currency currency) {
         this.name.setText(name);
-        if (description == null) description = "";
         this.description.setText(description);
-        this.price.setText(price + "");
-        this.count.setText(count + "");
+        this.price.setText(price);
+        this.count.setText(count);
         ArrayAdapter adapter = new ArrayAdapter(EditActivity.this, android.R.layout.simple_spinner_item, 0, Currency.getAllSymbols());
         this.currency.setAdapter(adapter);
         this.currency.setSelection(currency.ordinal());
-        Picasso.get().load(icon).into(this.icon);
+        presenter.changeImage(icon, this.icon);
     }
 
     @Override
@@ -113,7 +114,9 @@ public class EditActivity extends AppCompatActivity implements EditView {
             case 1234:
                 if (resultCode == RESULT_OK) {
                     presenter.changeImage(data.getDataString(), icon);
+                    //presenter.changeImage(data.getData(), getContentResolver(), icon);
                 }
+
         }
     }
 
