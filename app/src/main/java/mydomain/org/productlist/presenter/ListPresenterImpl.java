@@ -50,7 +50,7 @@ public class ListPresenterImpl implements ListPresenter {
 
     @Override
     public boolean addElement(EditText name, EditText price, EditText count, char currency) {
-        if(name.getText().length() * price.getText().length() * count.getText().length() != 0) {
+        if (name.getText().length() * price.getText().length() * count.getText().length() != 0) {
             Product product = new Product();
             product.setName(name.getText().toString());
             product.setPrice(Float.parseFloat(price.getText().toString()));
@@ -78,7 +78,6 @@ public class ListPresenterImpl implements ListPresenter {
             }
         }
         searching = true;
-
     }
 
     @Override
@@ -96,12 +95,11 @@ public class ListPresenterImpl implements ListPresenter {
         holder.priceField.setText(String.format("%.2f" + product.getCurrency().getSymbol(), product.getPrice()));
         Picasso.get().load(new File(product.getIconPath())).placeholder(R.mipmap.ic_launcher_round).error(R.mipmap.ic_launcher_round).
                 transform(new CircularTransformation()).into(holder.iconField);
-
     }
 
     @Override
-    public void undoDeleting() {
-
+    public String getDescription(int position) {
+        return database.getProductDao().getProductByPosition(position).getDescription();
     }
 
     private static class AgentAsyncTask extends AsyncTask<Void, Void, Integer> {

@@ -10,5 +10,5 @@ public interface ListPresenter {
     boolean addElement(EditText name, EditText price, EditText count, char currency);
     void search(String str);
     void setValues(ProductAdapter.ViewHolder holder, int position);
-    void undoDeleting();
+    String getDescription(int postition);
 }

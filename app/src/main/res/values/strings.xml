@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProductList</string>
+    <string name="app_name">List of products</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -102,7 +102,7 @@
     <string name="count">count</string>
     <string name="price">price</string>
     <string name="search">search by name</string>
-    <string name="title_activity_edit">EditActivity</string>
+    <string name="title_activity_edit">Edit product</string>
     <string name="cancel">cancel</string>
     <string name="save">save</string>
     <string name="create_action">create new product</string>

@@ -5,22 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import mydomain.org.productlist.R;
-import mydomain.org.productlist.model.Currency;
 import mydomain.org.productlist.presenter.ListPresenter;
 import mydomain.org.productlist.presenter.ListPresenterImpl;
 import mydomain.org.productlist.view.adapter.ProductAdapter;
@@ -40,6 +36,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
         presenter = new ListPresenterImpl(this);
         FloatingActionButton fab = findViewById(R.id.add_btn);
         fab.setOnClickListener((view) -> openCreateDialog());
+
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(ListActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -48,7 +45,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
 
             @Override
             public void onLongItemClick(View view, int position) {
-
+                showDescription(position);
             }
         }));
 
@@ -92,29 +89,12 @@ public class ListActivity extends AppCompatActivity implements ListView {
     }
 
     public void openCreateDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
-
-        LayoutInflater inflater = ListActivity.this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.create_dialog, null);
-        builder.setView(view);
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-
-        TextView saveBtn = view.findViewById(R.id.create_save);
-
-        EditText name = view.findViewById(R.id.create_name);
-        EditText price = view.findViewById(R.id.create_price);
-        EditText count = view.findViewById(R.id.create_count);
-        Spinner currency = view.findViewById(R.id.create_currency);
-        TextView errors = view.findViewById(R.id.errors_message);
-        ArrayAdapter adapter = new ArrayAdapter(ListActivity.this, android.R.layout.simple_spinner_item, 0, Currency.getAllSymbols());
-        currency.setAdapter(adapter);
-        currency.setSelection(0);
-        saveBtn.setOnClickListener((v) -> {
-            if (presenter.addElement(name, price, count, (Character) currency.getSelectedItem()))
-                dialog.dismiss();
-            else errors.setText(R.string.error);
-        });
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        CreateProductDialogFragment dialog = new CreateProductDialogFragment();
+        dialog.init(presenter, this);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.add(android.R.id.content, dialog).addToBackStack(null).commitAllowingStateLoss();
     }
 
     @Override
@@ -147,6 +127,7 @@ public class ListActivity extends AppCompatActivity implements ListView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_list, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
@@ -166,7 +147,16 @@ public class ListActivity extends AppCompatActivity implements ListView {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
+
         return true;
+    }
+
+    public void showDescription(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+        builder.setTitle(R.string.description)
+                .setMessage(presenter.getDescription(position))
+                .setPositiveButton(android.R.string.ok, (d, w) -> d.dismiss())
+                .create().show();
     }
 
 }

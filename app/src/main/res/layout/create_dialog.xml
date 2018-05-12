@@ -1,89 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/dialog_width"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginTop="@dimen/dialog_margin"
-    android:layout_marginBottom="@dimen/dialog_margin"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:padding="@dimen/fab_margin">
-        <LinearLayout
-            android:orientation="vertical"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/create_action"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dialog_message"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/errors_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textColor="@color/red"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/create_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/create_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/price"
+            android:inputType="numberDecimal" />
 
-            <TextView
-                android:id="@+id/dialog_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@string/create_action"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dialog_message"
-                android:textStyle="bold" />
+        <Spinner
+            android:id="@+id/create_currency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="5"
+            app:layout_constraintBottom_toTopOf="@+id/create_count"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_name" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/errors_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:textColor="@color/red"
-                android:textStyle="bold"/>
+    <EditText
+        android:id="@+id/create_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:digits="0123456789."
+        android:ems="10"
+        android:hint="@string/count"
+        android:inputType="numberSigned" />
 
-            <EditText
-                android:hint="@string/name"
-                android:inputType="text"
-                android:id="@+id/create_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:ems="10" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <EditText
-                android:hint="@string/price"
-                android:id="@+id/create_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:ems="10"
-                android:inputType="numberDecimal"/>
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/create_currency"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/create_count"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/create_name"/>
-            </LinearLayout>
-            <EditText
-                android:hint="@string/count"
-                android:id="@+id/create_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:digits="0123456789."
-                android:layout_margin="8dp"
-                android:inputType="numberSigned"/>
-
-            <TextView
-                android:id="@+id/create_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/save"
-                android:textColor="@color/dialog_text_btn"
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_btn_size"
-                android:textStyle="bold"/>
-        </LinearLayout>
-    </ScrollView>
+</LinearLayout>
 
 
