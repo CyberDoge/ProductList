@@ -93,8 +93,8 @@ public class ListActivity extends AppCompatActivity implements ListView {
         CreateProductDialogFragment dialog = new CreateProductDialogFragment();
         dialog.init(presenter, this);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.add(android.R.id.content, dialog).addToBackStack(null).commitAllowingStateLoss();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE/*TRANSIT_FRAGMENT_OPEN*/);
+        transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();
     }
 
     @Override
@@ -127,7 +127,6 @@ public class ListActivity extends AppCompatActivity implements ListView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_list, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();

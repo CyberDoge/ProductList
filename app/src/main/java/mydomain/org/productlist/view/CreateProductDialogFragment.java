@@ -1,10 +1,11 @@
 package mydomain.org.productlist.view;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,12 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import mydomain.org.productlist.R;
 import mydomain.org.productlist.model.Currency;
@@ -39,9 +38,9 @@ public class CreateProductDialogFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.create_dialog, container, false);
-        name = rootView.findViewById(R.id.create_name);
+       name = rootView.findViewById(R.id.create_name);
         price = rootView.findViewById(R.id.create_price);
         count = rootView.findViewById(R.id.create_count);
         currency = rootView.findViewById(R.id.create_currency);
@@ -50,10 +49,13 @@ public class CreateProductDialogFragment extends DialogFragment {
         currency.setAdapter(adapter);
         currency.setSelection(0);
         setHasOptionsMenu(true);
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
         return rootView;
     }
 
-    @Override
+
+   @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         getActivity().getMenuInflater().inflate(R.menu.menu_create, menu);
@@ -61,7 +63,7 @@ public class CreateProductDialogFragment extends DialogFragment {
         activity.getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    @NonNull
+   @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -74,7 +76,7 @@ public class CreateProductDialogFragment extends DialogFragment {
         switch (item.getItemId()) {
             case R.id.button_action_save: {
                 if (presenter.addElement(name, price, count, (Character) currency.getSelectedItem()))
-                    getDialog().dismiss();
+                        dismiss();
                 else errors.setText(R.string.error);
                 return true;
             }
