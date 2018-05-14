@@ -1,13 +1,13 @@
 package mydomain.org.productlist.presenter;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.AsyncTask;
-import android.widget.EditText;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -18,7 +18,6 @@ import java.util.List;
 
 import mydomain.org.productlist.R;
 import mydomain.org.productlist.database.AppDatabase;
-import mydomain.org.productlist.model.Currency;
 import mydomain.org.productlist.model.Product;
 import mydomain.org.productlist.view.ListView;
 import mydomain.org.productlist.view.adapter.ProductAdapter;
@@ -47,22 +46,6 @@ public class ListPresenterImpl implements ListPresenter {
     public void deleteElementAtPosition(int position) {
         database.getProductDao().deleteByPosition(position);
     }
-
-    @Override
-    public boolean addElement(EditText name, EditText price, EditText count, char currency) {
-        if (name.getText().length() * price.getText().length() * count.getText().length() != 0) {
-            Product product = new Product();
-            product.setName(name.getText().toString());
-            product.setPrice(Float.parseFloat(price.getText().toString()));
-            product.setCount(Integer.parseInt(count.getText().toString()));
-            product.setCurrency(Currency.getCurrency(currency));
-            database.getProductDao().insert(product);
-            view.addProductToView();
-            return true;
-        }
-        return false;
-    }
-
 
     @Override
     public void search(String str) {
