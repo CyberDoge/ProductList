@@ -5,11 +5,13 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +34,7 @@ public class ListFragment extends Fragment implements ListView {
     private ListPresenter presenter;
     private ProductAdapter adapter;
 
-    public ListFragment(){
+    public ListFragment() {
     }
 
     public static ListFragment newInstance() {
@@ -40,6 +42,13 @@ public class ListFragment extends Fragment implements ListView {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -87,9 +96,26 @@ public class ListFragment extends Fragment implements ListView {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+
+        setHasOptionsMenu(true);
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        super.getView().setFocusableInTouchMode(true);
+        super.getView().requestFocus();
+        super.getView().setOnKeyListener((v, keyCode, event)-> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    getActivity().finish();
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -145,12 +171,17 @@ public class ListFragment extends Fragment implements ListView {
         startActivity(intent);
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_list, menu);
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setOnCloseListener(()->{
+            searchView.clearFocus();
+            return false;
+        });
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -165,6 +196,7 @@ public class ListFragment extends Fragment implements ListView {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 
