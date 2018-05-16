@@ -34,6 +34,7 @@ public class ListFragment extends Fragment implements ListView {
     private ListPresenter presenter;
     private ProductAdapter adapter;
 
+
     public ListFragment() {
     }
 
@@ -96,26 +97,9 @@ public class ListFragment extends Fragment implements ListView {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
-
-        setHasOptionsMenu(true);
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        super.getView().setFocusableInTouchMode(true);
-        super.getView().requestFocus();
-        super.getView().setOnKeyListener((v, keyCode, event)-> {
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    getActivity().finish();
-                    return true;
-                }
-            }
-            return false;
-        });
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -178,7 +162,7 @@ public class ListFragment extends Fragment implements ListView {
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setOnCloseListener(()->{
+        searchView.setOnCloseListener(() -> {
             searchView.clearFocus();
             return false;
         });

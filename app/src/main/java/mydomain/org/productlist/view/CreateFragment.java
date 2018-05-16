@@ -79,26 +79,6 @@ public class CreateFragment extends Fragment implements CreateView {
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener((v, keyCode, event) -> {
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    ListFragment fragmentFirst = new ListFragment();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frag_content, fragmentFirst);
-                    fragmentTransaction.commit();
-                    return true;
-                }
-            }
-            return false;
-        });
-    }
-
     public void onSaveButtonPressed() {
         if (presenter.createProduct(name.getText().toString(), price.getText().toString(), count.getText().toString(), (Character) currency.getSelectedItem())) {
             if (mListener != null) {

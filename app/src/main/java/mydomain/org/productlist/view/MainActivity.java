@@ -17,9 +17,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnFr
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment = new ListFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frag_content, nextFragment)
-                .addToBackStack(null)
-                .commit();
+        transaction.add(R.id.frag_content, nextFragment).commit();
     }
 
 
@@ -31,12 +29,5 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnFr
         transaction.replace(R.id.frag_content, nextFragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() != 1) {
-            super.onBackPressed();
-        }
     }
 }
