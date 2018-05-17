@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnFr
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment = new CreateFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right);
+        transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right, R.animator.slide_in_left, R.animator.slide_in_right);
         transaction.replace(R.id.frag_content, nextFragment)
                 .addToBackStack(null)
                 .commit();
@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnFr
 
     @Override
     public void onBackPressed() {
-        final ListFragment listFragment = (ListFragment) getSupportFragmentManager().getFragments().get(0);
-        if(listFragment.hideSearchBar())
-        super.onBackPressed();
+        if(getSupportFragmentManager().getFragments().get(0) instanceof ListFragment) {
+            final ListFragment listFragment = (ListFragment) getSupportFragmentManager().getFragments().get(0);
+            if (listFragment.hideSearchBar())
+                super.onBackPressed();
+        }else super.onBackPressed();
     }
 }

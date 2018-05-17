@@ -69,7 +69,7 @@ public class EditPresenterImpl implements EditPresenter {
     @Override
     public void changeImage(Uri iconUri, ImageView imageView) {
         String image = getRealPathFromURI(iconUri);
-        Picasso.get().load(new File(image)).error(R.mipmap.ic_launcher).transform(new CropSquareTransformation(imageView)).into(imageView);
+        Picasso.get().load(new File(image)).error(R.mipmap.noimage).transform(new CropSquareTransformation()).into(imageView);
         imageView.setTag(image);
     }
 
@@ -88,28 +88,28 @@ public class EditPresenterImpl implements EditPresenter {
     }
 
     private static class CropSquareTransformation implements Transformation {
-        private final ImageView view;
 
-        public CropSquareTransformation(ImageView view) {
-            this.view = view;
-        }
+        private int mWidth;
+        private int mHeight;
 
         @Override
         public Bitmap transform(Bitmap source) {
-            int targetWidth = Math.max(view.getWidth(), source.getWidth());
+            int size = Math.min(source.getWidth(), source.getHeight());
 
-            double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
-            int targetHeight = (int) (targetWidth * aspectRatio);
-            Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-            if (result != source) {
+            mWidth = (source.getWidth() - size) / 2;
+            mHeight = (source.getHeight() - size) / 2;
+
+            Bitmap bitmap = Bitmap.createBitmap(source, mWidth, mHeight, size, size);
+            if (bitmap != source) {
                 source.recycle();
             }
-            return result;
+
+            return bitmap;
         }
 
         @Override
         public String key() {
-            return "cropSquareTransformation";
+            return "CropSquareTransformation(width=" + mWidth + ", height=" + mHeight + ")";
         }
     }
 }

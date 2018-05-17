@@ -74,7 +74,7 @@ public class ListPresenterImpl implements ListPresenter {
         holder.nameField.setText(product.getName());
         holder.countField.setText(product.getCount() + "");
         holder.priceField.setText(String.format("%.2f" + product.getCurrency().getSymbol(), product.getPrice()));
-        Picasso.get().load(new File(product.getIconPath())).placeholder(R.mipmap.ic_launcher_round).error(R.mipmap.ic_launcher_round).
+        Picasso.get().load(new File(product.getIconPath())).placeholder(R.mipmap.noimage).error(R.mipmap.noimage).
                 transform(new CircularTransformation()).into(holder.iconField);
     }
 
