@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +33,7 @@ public class ListFragment extends Fragment implements ListView {
     private ListPresenter presenter;
     private ProductAdapter adapter;
 
+    private SearchView searchView;
 
     public ListFragment() {
     }
@@ -97,7 +97,16 @@ public class ListFragment extends Fragment implements ListView {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+
         return view;
+    }
+
+    public boolean hideSearchBar() {
+        if(searchView != null && !searchView.isIconified()){
+            searchView.setIconified(true);
+            return false;
+        }
+        return true;
     }
 
 
@@ -160,12 +169,8 @@ public class ListFragment extends Fragment implements ListView {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_list, menu);
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setOnCloseListener(() -> {
-            searchView.clearFocus();
-            return false;
-        });
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -182,7 +187,6 @@ public class ListFragment extends Fragment implements ListView {
         searchView.setOnQueryTextListener(queryTextListener);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 
     public interface OnFragmentInteractionListener {
         void openCreateProductFragment();

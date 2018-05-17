@@ -24,15 +24,6 @@ import mydomain.org.productlist.presenter.CreatePresenter;
 import mydomain.org.productlist.presenter.CreatePresenterImpl;
 
 public class CreateFragment extends Fragment implements CreateView {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     private CreatePresenter presenter;
     private EditText name;
@@ -55,9 +46,6 @@ public class CreateFragment extends Fragment implements CreateView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
         setHasOptionsMenu(true);
     }
 
@@ -76,6 +64,7 @@ public class CreateFragment extends Fragment implements CreateView {
         setHasOptionsMenu(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();
+        ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         return view;
     }
 
@@ -98,7 +87,6 @@ public class CreateFragment extends Fragment implements CreateView {
         switch (item.getItemId()) {
             case R.id.button_action_save: {
                 onSaveButtonPressed();
-                close();
                 return true;
             }
             case android.R.id.home: {
@@ -124,11 +112,12 @@ public class CreateFragment extends Fragment implements CreateView {
     @Override
     public void onDetach() {
         super.onDetach();
+        ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         mListener = null;
     }
 
     private void close() {
-        getActivity().getFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     public interface OnFragmentInteractionListener {
